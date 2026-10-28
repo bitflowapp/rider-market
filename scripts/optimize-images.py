@@ -2,7 +2,7 @@
 """Optimiza las fotografías originales del cliente a WebP responsive.
 
 - Corrige orientación EXIF y elimina todos los metadatos.
-- Genera anchos 1600 / 1000 / 640 px (sin upscalear).
+- Genera anchos 1000 / 640 px (sin upscalear).
 - Genera una imagen Open Graph 1200x630.
 """
 from pathlib import Path
@@ -28,7 +28,7 @@ IMAGES = [
     ("perfumes-yara", 84),
 ]
 
-WIDTHS = [1600, 1000, 640]
+WIDTHS = [1000, 640]
 
 for name, quality in IMAGES:
     src = SRC / f"{name}.jpeg"
@@ -43,6 +43,34 @@ for name, quality in IMAGES:
         dest = OUT / f"{name}-{target}.webp"
         resized.save(dest, "WEBP", quality=quality, method=6)
         print(f"{dest.name}: {target}x{nh} {dest.stat().st_size // 1024} KB")
+
+# Detalle del póster de servicio para el hero: recorte 4:5 sin texto.
+hero = Image.open(SRC / "servicio-bicicletas.jpeg")
+hero = ImageOps.exif_transpose(hero).convert("RGB")
+detail = ImageOps.grayscale(hero.crop((540, 420, 1024, 1024))).convert("RGB")
+detail.save(OUT / "hero-taller-484.webp", "WEBP", quality=86, method=6)
+detail.resize((968, 1208), Image.Resampling.LANCZOS).save(
+    OUT / "hero-taller-968.webp", "WEBP", quality=82, method=6
+)
+mobile = ImageOps.grayscale(hero.crop((520, 520, 1024, 835))).convert("RGB")
+mobile.resize((640, 400), Image.Resampling.LANCZOS).save(
+    OUT / "hero-taller-mobile-640.webp", "WEBP", quality=84, method=6
+)
+print("hero-taller-484.webp / hero-taller-968.webp / hero-taller-mobile-640.webp listos")
+
+# Recortes de detalle para las tarjetas de servicio (sin titulares del póster).
+taller = ImageOps.grayscale(hero.crop((540, 520, 1024, 822))).convert("RGB")
+taller.save(OUT / "servicio-taller-detalle-484.webp", "WEBP", quality=86, method=6)
+taller.resize((384, 240), Image.Resampling.LANCZOS).save(
+    OUT / "servicio-taller-detalle-384.webp", "WEBP", quality=84, method=6
+)
+anti = Image.open(SRC / "servicio-antipinchazos.jpeg")
+anti = ImageOps.grayscale(ImageOps.exif_transpose(anti).convert("RGB").crop((480, 800, 1024, 1140))).convert("RGB")
+anti.save(OUT / "servicio-antipinchazos-detalle-544.webp", "WEBP", quality=86, method=6)
+anti.resize((384, 240), Image.Resampling.LANCZOS).save(
+    OUT / "servicio-antipinchazos-detalle-384.webp", "WEBP", quality=84, method=6
+)
+print("recortes de servicio listos")
 
 # Open Graph 1200x630, tipográfico y sin depender de fuentes externas.
 og = Image.new("RGB", (1200, 630), "#0d1012")
