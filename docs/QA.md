@@ -66,7 +66,7 @@ Se corrigieron durante la revisión:
 - URL: https://bitflowapp.github.io/rider-market/
 - Workflow: `.github/workflows/pages.yml` (GitHub Actions → GitHub Pages, artefacto `public/`).
 - Commit del código publicado: `43be397`.
-- Última ejecución verificada del workflow: `40745703595` (success).
+- Ejecución verificada del código publicado: `40745703595` (success).
 
 ## Pendiente / no cubierto
 
