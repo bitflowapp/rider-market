@@ -2,8 +2,8 @@
 
 Sitio comercial estático de **Rider Market** (Neuquén, Argentina): servicio de bicicletas, repuestos, accesorios y una selección de perfumes.
 
-- **Sitio publicado:** https://marcoluna-nqn.github.io/rider-market/
-- **Repositorio:** https://github.com/marcoluna-nqn/rider-market
+- **Sitio publicado:** https://bitflowapp.github.io/rider-market/
+- **Repositorio:** https://github.com/bitflowapp/rider-market
 - **Stack:** HTML, CSS y JavaScript sin dependencias ni build. Fuentes autoalojadas. Sin Supabase, Firebase, base de datos, servidor propio ni pasarela de pagos.
 - **Hosting:** GitHub Pages (gratuito), desplegado desde `public/` con GitHub Actions.
 
