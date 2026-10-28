@@ -81,7 +81,7 @@ No publicar el número sin autorización expresa del cliente.
 
 ## Pruebas
 
-Ver [`docs/QA.md`](docs/QA.md). Última corrida: **47/47 comprobaciones aprobadas** y Lighthouse **99/100/100/100** en móvil y **100/100/100/100** en escritorio (Chrome headless, local).
+Ver [`docs/QA.md`](docs/QA.md). Última corrida: **47/47 comprobaciones aprobadas en local y 47/47 en producción**. Lighthouse: **99/100/100/100** local móvil, **100/100/100/100** local escritorio, **97/100/100/100** producción móvil y **99/100/100/100** producción escritorio.
 
 ## Fuentes e imágenes
 

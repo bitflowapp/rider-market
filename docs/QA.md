@@ -7,12 +7,13 @@ Fecha de la última corrida: **28/10/2026**.
 - Windows 11, Python 3.11, Node 24.
 - Chrome estable, controlado con Playwright 1.64 en modo headless.
 - Servidor local: `python -m http.server 4174 -d public`.
+- Producción: https://bitflowapp.github.io/rider-market/ (GitHub Pages, workflow `pages.yml`).
 - Viewports: escritorio 1440×900; móvil 390×844, DPR 3, touch.
 - Lighthouse 13.6 (móvil con throttling simulado; escritorio con preset desktop).
 
 ## Resultado funcional
 
-**47/47 comprobaciones aprobadas.**
+**47/47 comprobaciones aprobadas en local y 47/47 en producción.**
 
 Cobertura ejecutada:
 
@@ -33,16 +34,18 @@ Cobertura ejecutada:
 - `html-validate` sin errores en `index.html` y `404.html`.
 - `node --check public/app.js` sin errores.
 
+La misma suite se ejecutó contra la URL publicada: **47/47**, incluyendo filtros, lightbox, diálogos, menú móvil, ausencia de scroll horizontal, imágenes, consola y requests. También se verificó que una ruta inexistente devuelve HTTP 404 con la página personalizada, y que canonical, Open Graph, sitemap y robots apuntan a la URL final.
+
 ## Lighthouse
 
-| Categoría | Móvil | Escritorio |
-|---|---:|---:|
-| Performance | **99** | **100** |
-| Accessibility | **100** | **100** |
-| Best Practices | **100** | **100** |
-| SEO | **100** | **100** |
+| Categoría | Local móvil | Local escritorio | Producción móvil | Producción escritorio |
+|---|---:|---:|---:|---:|
+| Performance | **99** | **100** | **97** | **99** |
+| Accessibility | **100** | **100** | **100** | **100** |
+| Best Practices | **100** | **100** | **100** | **100** |
+| SEO | **100** | **100** | **100** | **100** |
 
-Métricas móviles de la corrida final: FCP 1,5 s; LCP 1,5 s; TBT 0 ms; CLS 0. El LCP móvil es el `h1`; el hero usa una imagen horizontal específica para móvil y `fetchpriority="high"`.
+Métricas móviles locales: FCP 1,5 s; LCP 1,5 s; TBT 0 ms; CLS 0. En producción: FCP 1,6 s; LCP 1,6 s; TBT 0 ms; CLS 0,006. El LCP móvil es el `h1`; el hero usa una imagen horizontal específica para móvil y `fetchpriority="high"`.
 
 ## Pruebas visuales
 
@@ -57,9 +60,17 @@ Se corrigieron durante la revisión:
 - Nombres accesibles de la marca y de los botones de galería.
 - Tamaño táctil de los enlaces del pie.
 
+## Publicación
+
+- Repositorio: https://github.com/bitflowapp/rider-market
+- URL: https://bitflowapp.github.io/rider-market/
+- Workflow: `.github/workflows/pages.yml` (GitHub Actions → GitHub Pages, artefacto `public/`).
+- Commit del código publicado: `43be397`.
+- Última ejecución verificada del workflow: `40745703595` (success).
+
 ## Pendiente / no cubierto
 
 - **Número comercial de WhatsApp sin confirmar.** El botón abre el diálogo de consulta preparada; no se publica el número.
-- Verificación del sitio publicado en GitHub Pages después del despliegue (HTTP 200, assets, consola).
 - No se probó en Safari/iOS real ni en Firefox. Las pruebas fueron con Chrome.
 - No hay pruebas automatizadas de regresión visual ni de accesibilidad con lector de pantalla real.
+- El sitio publicado no tiene dominio propio; usa la URL gratuita de GitHub Pages.
