@@ -171,6 +171,9 @@
   let lightboxList = [];
   let lightboxIndex = 0;
   let lastLightboxTrigger = null;
+  let lightboxRequest = 0;
+  const fullImageCache = new Set();
+  const pendingFullImages = new Set();
 
   function bestSource(img) {
     if (!img) return '';
@@ -195,8 +198,26 @@
     const img = $('img', item);
     if (!img || !lightboxImg) return;
 
-    lightboxImg.src = bestSource(img);
+    const request = ++lightboxRequest;
+    const preview = img.currentSrc || img.src;
+    const full = bestSource(img);
+    lightboxImg.src = preview;
     lightboxImg.alt = img.alt || item.dataset.caption || '';
+
+    if (full && full !== preview && !fullImageCache.has(full)) {
+      const loader = new Image();
+      pendingFullImages.add(loader);
+      loader.onload = () => {
+        pendingFullImages.delete(loader);
+        fullImageCache.add(full);
+        if (request === lightboxRequest && lightbox.open) lightboxImg.src = full;
+      };
+      loader.onerror = () => pendingFullImages.delete(loader);
+      loader.src = full;
+    } else if (full) {
+      lightboxImg.src = full;
+    }
+
     if (lightboxCaption) lightboxCaption.textContent = item.dataset.caption || '';
     if (lightboxType) lightboxType.textContent = item.dataset.type || '';
     if (lightboxCount) lightboxCount.textContent = `${lightboxIndex + 1} / ${lightboxList.length}`;
