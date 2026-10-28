@@ -215,10 +215,6 @@
   function closeLightbox() {
     if (!lightbox) return;
     closeDialog(lightbox);
-    if (lightboxImg) {
-      lightboxImg.removeAttribute('src');
-      lightboxImg.alt = '';
-    }
     if (lastLightboxTrigger && typeof lastLightboxTrigger.focus === 'function') {
       lastLightboxTrigger.focus({ preventScroll: true });
     }
@@ -244,10 +240,6 @@
     lightbox.addEventListener('close', () => {
       openDialogs.delete(lightbox);
       unlockScroll();
-      if (lightboxImg) {
-        lightboxImg.removeAttribute('src');
-        lightboxImg.alt = '';
-      }
       if (lastLightboxTrigger && typeof lastLightboxTrigger.focus === 'function') {
         lastLightboxTrigger.focus({ preventScroll: true });
       }
